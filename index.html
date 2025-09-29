@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Buddy App</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Leaflet (map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="header">
+    <h1>Weather Buddy App</h1>
+  </header>
+
+  <section class="search-container">
+  <div class="search-inner">
+    <input type="text" id="cityInput" placeholder="Enter city name" autocomplete="off"/>
+    <button id="getWeatherBtn">Get Weather</button>
+    <ul id="suggestions" class="autocomplete-list"></ul>
+  </div>
+</section>
+
+  <main class="weather-content" id="dashboard">
+    <div class="grid top-grid">
+      <div class="card big-card" id="todayCard">
+        <!-- icon -->
+        <img id="mainWeatherIcon" alt="Weather icon" class="main-weather-icon" src="" onerror="this.style.display='none'"/>
+        <h2 id="cityName">--</h2>
+        <p id="temp" class="big-temp">-- °C</p>
+        <p id="weatherDesc">--</p>
+        <p id="humidity">Humidity: --</p>
+        <p id="aqi">Air Quality Index: --</p>
+
+        <div class="utility-row">
+          <div class="utility"><strong>Sunrise</strong><div id="sunrise">-- : --</div></div>
+          <div class="utility"><strong>Sunset</strong><div id="sunset">-- : --</div></div>
+          <div class="utility"><strong>Wind</strong><div id="windInfo"><span id="windSpeed">-- m/s</span> <span id="windDir"></span></div></div>
+        </div>
+
+        <div class="card-actions">
+        </div>
+      </div>
+
+      <div class="map-card card" id="mapCard">
+        <div id="map" style="width:100%;height:100%;min-height:220px;border-radius:8px;"></div>
+        <div class="map-controls">
+          <label><input type="checkbox" id="precipLayer"> Precipitation</label>
+          <label><input type="checkbox" id="cloudsLayer"> Clouds</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forecast Detail Modal -->
+    <div id="forecastModal" class="modal">
+      <div class="modal-content">
+        <span id="closeForecastModal">&times;</span>
+        <h2 id="forecastDate"></h2>
+        <img id="forecastIcon" />
+        <p id="forecastTemp"></p>
+        <p id="forecastHumidity"></p>
+        <p id="forecastWind"></p>
+        <p id="forecastAQI"></p>
+        <p id="forecastWeather"></p>
+        <p id="forecastTempCategory"></p>
+      </div>
+    </div>
+
+    <div class="grid mid-grid">
+      <section id="forecast-container" class="card panel">
+        <h3>5-day Forecast</h3>
+        <div id="forecast" class="forecast-grid"></div>
+        <canvas id="forecastChart" style="max-height:220px;"></canvas>
+      </section>
+
+      <section id="extra-charts" class="card panel">
+        <h3>Detailed Charts</h3>
+        <canvas id="humidityChart" style="max-height:200px;"></canvas>
+        <canvas id="windChart" style="max-height:200px; margin-top:12px;"></canvas>
+
+        <h4 style="margin-top: 16px;">Wind Direction Compass</h4>
+        <canvas id="windDirectionChart" style="max-height:250px;"></canvas>
+      </section>
+    </div>
+
+    <section id="comparePanel" class="card panel">
+      <h3>Compare Cities</h3>
+      <div id="compareInputs" class="compare-inputs">
+        <input id="compareCityA" placeholder="City A (e.g., London)"/>
+        <input id="compareCityB" placeholder="City B (e.g., New York)"/>
+        <button id="runCompare">Compare</button>
+      </div>
+      <div id="compareResults"></div>
+      <canvas id="compareChart"></canvas>
+    </section>
+  </main>
+
+  <!-- Chatbot -->
+  <button id="openChatbotBtn" class="open-chatbot-btn">💬 Chat with Travel Assistant</button>
+  <div class="chatbot-container" id="chatbot" style="display:none;">
+    <button class="close-chatbot" onclick="closeChatbot()">✖</button>
+    <div class="chat-header">Travel Assistant</div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input">
+      <input type="text" id="chatMessage" placeholder="Ask about weather or travel..."/>
+      <button onclick="sendChat()">Send</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
